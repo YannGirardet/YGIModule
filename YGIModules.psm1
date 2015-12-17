@@ -455,7 +455,11 @@ Function Write-Line {
 
                     Write-Host $DefaultColorMessage -NoNewline -ForegroundColor $DefaultColor
                     Write-Host $AltColorMessage -NoNewline -ForegroundColor $AltColor
-                    $Pos = $Line.CloseList[$Index]
+                    if ($HideChar){
+                        $Pos = $Line.CloseList[$Index] + 1
+                    }Else{
+                        $Pos = $Line.CloseList[$Index]
+                    }
                     $Index = $Index + 1
                     if ($Index -ge $Line.OpenList.Count){
                         if ($HideChar){
