@@ -1,4 +1,4 @@
-Function Write-Line {
+﻿Function Write-Line {
 <#
     .SYNOPSIS
         Writes customized colored output to a host

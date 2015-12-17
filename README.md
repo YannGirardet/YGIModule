@@ -22,8 +22,8 @@ Powershell Module to enhance host display
 
 ### Examples
   * `$ChoiceMenu = Add-ChoiceItem -MenuItem "Get the process list" -MenuAction "Get-Process"`
-  * `$ChoiceMenu = Add-Choice -Menu $ChoiceMenu -MenuItem "Get the time" -MenuAction "Get-Date -Format HH:mm:ss"`
-  * `$ChoiceMenu = Add-Choice -Menu $ChoiceMenu -MenuItem "Get the date" -MenuAction "Get-Date -Format dd.MM.yyyy"`
+  * `$ChoiceMenu = Add-ChoiceItem -Menu $ChoiceMenu -MenuItem "Get the time" -MenuAction "Get-Date -Format HH:mm:ss"`
+  * `$ChoiceMenu = Add-ChoiceItem -Menu $ChoiceMenu -MenuItem "Get the date" -MenuAction "Get-Date -Format dd.MM.yyyy"`
 
 ## Write-ChoiceMenu
   A Choice Menu creator
@@ -31,6 +31,7 @@ Powershell Module to enhance host display
     * Return $null if user choose to exit
 
 ### Example
-  * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu`
+  * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu -Title "My Menu"` 
 
 ## Ask-User
+	A three state read-host
