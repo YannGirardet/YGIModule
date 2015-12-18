@@ -31,8 +31,5 @@ Powershell Module to enhance host display
     * Return $null if user choose to exit
 
 ### Example
-  * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu -Title "My Menu"` 
-
-## Ask-User
-	A three state read-host
-  * Blabla  
+  * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu -Title "My Menu"`
+  
