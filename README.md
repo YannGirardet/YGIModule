@@ -32,4 +32,11 @@ Powershell Module to enhance host display
 
 ### Example
   * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu -Title "My Menu"`
-  
+
+## Ask-User
+  A predefined read-host
+  * With -AskYesNoQuit Create a Read-Host Text with predefined value to return
+    * Return $Null if Quit
+	* Return $True if Yes
+	* Return $False if No
+  * or a simple Read-Host using Write-Line colored text	

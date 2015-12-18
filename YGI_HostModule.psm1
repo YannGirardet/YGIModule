@@ -117,45 +117,6 @@ Function Write-Line {
         [Switch]
             $NoNewLine
         )
-    Function Filter-OpenClose {
-        Param([String]$Message,[Char]$OpenChar,[Char]$CloseChar)
-        Function Find-AllChar {
-            Param([String]$Message,[Char]$Char)
-            $StringArray=$Message.Split($Char)
-            $PosArray = @()
-            $Pos = 0
-            ForEach($String in $StringArray){
-                $Pos = $String.Length + $Pos
-                if ($Pos -lt ($Message.Length)) {
-                    $PosArray += $Pos
-                }
-                $Pos = $Pos + 1
-            }
-            Write-Output $PosArray
-        }
-        #Find all char
-        $OpenList = Find-AllChar -Message $Message -Char $OpenChar
-        $CloseList = Find-AllChar -Message $Message -Char $CloseChar
-        #Filter Open Close
-        $NewOpened,$NewClosed = @(),@()
-        if ($OpenList){
-            $OpenedCount,$ClosedCount,$TempClosedCount = 0,0,0
-            for($i = 0;$i -le $CloseList[$CloseList.count - 1];$i ++){
-                if ($i -eq $OpenList[$OpenedCount]){
-                    $OpenedCount ++
-                    if ($OpenedCount -eq ($ClosedCount + 1)){$NewOpened += $i}
-                }
-                if ($i -eq $CloseList[$TempClosedCount]){
-                    $TempClosedCount ++
-                    if ($OpenedCount -gt $ClosedCount){
-                        $ClosedCount ++
-                        if ($ClosedCount -eq $OpenedCount){$NewClosed += $i}
-                    }
-                }
-            }
-            Write-Output $NewOpened,$NewClosed
-        }
-    }
     Function Change-UiSize {
         Param($MaxLength)
         if ($Host.Name -eq "ConsoleHost"){
@@ -341,12 +302,15 @@ Function Write-Line {
             $CloseList = Find-AllChar -Message $Message -Char $CloseChar
             #Filter Open Close
             $NewOpened,$NewClosed = @(),@()
-            if ($OpenList -and $CloseList){
+            
+            if (($OpenList.Count -gt 0) -and ($CloseList.count -gt 0)){
                 $OpenedCount,$ClosedCount,$TempClosedCount = 0,0,0
                 for($i = 0;$i -le $CloseList[$CloseList.count - 1];$i ++){
                     if ($i -eq $OpenList[$OpenedCount]){
                         $OpenedCount ++
-                        if ($OpenedCount -eq ($ClosedCount + 1)){$NewOpened += $i}
+                        if ($OpenedCount -eq ($ClosedCount + 1)){
+                            $NewOpened += $i
+                        }
                     }
                     if ($i -eq $CloseList[$TempClosedCount]){
                         $TempClosedCount ++
@@ -358,7 +322,7 @@ Function Write-Line {
                 }
                 Write-Output $NewOpened,$NewClosed
             }
-    }
+        }
         $Lines,$LinesInfo= @(),@()
         $MaxLength = 0
         $Lines += $Message -split "\r\n"
@@ -438,12 +402,11 @@ Function Write-Line {
                     }
             }
             Write-Host $SpaceBefore -NoNewline
-            if ($Line.OpenList -and $line.CloseList) {
+            if (($Line.OpenList.count -gt 0) -and ($line.CloseList.count -gt 0)) {
                 Do {
                     if ($HideChar){
                         $StartDefaultColor = $Pos
                         $DefaultColorLen = $Line.OpenList[$Index] - $Pos
-
                         $StartAltColor = $Line.OpenList[$Index] + 1
                         $AltColorLen = ($Line.CloseList[$Index] - $Line.OpenList[$Index]) - 1
                     }Else{
@@ -656,5 +619,101 @@ Function Write-ChoiceMenu {
     }
     Write-Output $RetVal
 }
+Function Ask-User {
+<#
+    .SYNOPSIS
+        Display a question and wait user to answer using Read-Host
+    .DESCRIPTION
+        Display a question and wait user to type the authorized answer
+    .EXAMPLE
+        $ReturnValue = Ask-User -AskYesNoQuit
+        Will display 'Continue [YES/NO] or [E] to Exit :'
+    .PARAMETER Message
+        Message displayed
+    .PARAMETER AskYesNoQuit
+        Default text will be '$Message Continue [YES/NO] or [E] to Exit :'
+    .PARAMETER DefaultColor
+        Specify default text color. Default 'Cyan'
+    .PARAMETER AltColor
+        Specify text between OpenChar and CloseChar color. Default 'Green'    
+    .INPUTS
+        System.Array
+    .OUTPUTS
+        System.Boolean
+    .NOTES
+        Written by Yann Girardet
+    
+    .FUNCTIONALITY
+        To display a question to host
 
+    .FORWARDHELPTARGETNAME <read-Host>
 
+#>
+    Param(
+        [String]
+            $Message,
+        [Switch]
+            $AskYesNoQuit,
+        [ConsoleColor]
+            $DefaultColor="Cyan",
+        [ConsoleColor]
+            $AltColor="Green"
+    )
+    Write-Verbose "Function : $($MyInvocation.MyCommand.Name)"
+    if ($AskYesNoQuit){
+        Do {
+            if ($Message){
+                $Line = "$($Message) " 
+            }
+            $Line = "$($Line)Continue [YES/NO] or [E] to Exit"
+            Write-Line $Line -NoNewLine -DefaultColor $DefaultColor -AltColor $AltColor
+            [String]$Answer = Read-Host " "
+            Write-Verbose "Answer is : [$($Answer)]"
+            $LAnswer = $Answer.ToLower()
+            Switch ($LAnswer){
+            "yes" {
+                $Ret_Val = $True
+                $ValidChoice = $True
+                }
+            "y" {
+                $Ret_Val = $True
+                $ValidChoice = $True
+                }
+            "no" {
+                $Ret_Val = $False
+                $ValidChoice = $True
+                }
+            "n" {
+                $Ret_Val = $False
+                $ValidChoice = $True
+                }
+            "exit" {
+                $Ret_Val = $null
+                $ValidChoice = $True
+                }
+            "e" {
+                $Ret_Val = $null
+                $ValidChoice = $True
+                }
+            "quit" {
+                $Ret_Val = $null
+                $ValidChoice = $True
+                }
+            "q" {
+                $Ret_Val = $null
+                $ValidChoice = $True
+                }
+            default {
+                Write-line "! Warning ! [$($Answer)] is not a valid choice..." -AltColor RED -DefaultColor Yellow
+                $ValidChoice = $False
+            }
+        }
+        }Until($ValidChoice)
+    }Else{
+        $Line = "$($Message)"
+        Write-Line $Line -NoNewLine -DefaultColor $DefaultColor -AltColor $AltColor
+        $Ret_Val = Read-Host " "
+    }
+    Write-Output $Ret_Val
+
+}
