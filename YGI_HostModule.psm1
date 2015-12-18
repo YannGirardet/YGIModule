@@ -547,7 +547,17 @@ Function Add-ChoiceItem {
     .FORWARDHELPTARGETNAME <Write-Host>
 
 #>
-    Param([Array]$Menu,[String]$MenuItem,[String]$MenuAction)
+    Param(
+        [Array]
+            $Menu,
+        [Parameter(
+            Mandatory=$True
+        )]
+        [String]
+            $MenuItem,
+        [String]
+            $MenuAction=$MenuItem
+        )
     if (-not $Menu){$Menu = @()}
     $ChoiceItem = New-Object PSObject -Property @{
         Item = $MenuItem
@@ -582,21 +592,47 @@ Function Write-ChoiceMenu {
     .FORWARDHELPTARGETNAME <Write-Host>
 
 #>
-    Param([Array]$Menu,[String]$Title)
+    Param(
+        [Parameter(
+            Mandatory=$True,
+            Position=1,
+            ValueFromPipeline=$True
+        )]
+        [Array]
+            $Menu,
+        [ConsoleColor]
+            $MenuColor = "Cyan",
+        [ConsoleColor]
+            $MenuAltColor = "Green",
+        [ConsoleColor]
+            $ChoiceColor = "Yellow",
+        [String]
+            $Title,
+        [ValidateSet("None","Single","SingleBold","Double","Mixed1","Mixed2","HalfBlock","Block","LightShade","MediumShade","DarkShade")]
+        [String]
+            $TitleBorderFormat = "Double",
+        [ConsoleColor]
+            $TitleBorderColor = "Magenta",
+        [ConsoleColor]
+            $TitleColor = $MenuColor
+        )
     if ($Menu -and $Menu.Count -gt 1){
         Do {
             if ($Title) {
-                Write-Line -Message $Title -Border
+                if ($TitleBorderStyle -eq "None"){
+                    Write-Line -Message $Title -DefaultColor $TitleColor
+                }
+                Write-Line -Message $Title -Border -BorderFormat $TitleBorderFormat -BorderColor $TitleBorderColor -DefaultColor $TitleColor 
             }
             Write-Host ""
             $MenuCounter = 1
             ForEach ($Choice in $Menu){
-                Write-Line "`t$($MenuCounter))" -DefaultColor Yellow -NoNewLine
-                Write-Line "`t$($Choice.Item)"
+                Write-Line "`t$($MenuCounter))" -DefaultColor $ChoiceColor -NoNewLine
+                Write-Line "`t$($Choice.Item)" -DefaultColor $MenuColor -AltColor $MenuAltColor
                 $MenuCounter ++
             }
             Write-Host ""
-            Write-Line "Please make your choice [1-$($Menu.Count)] or [Enter] to Exit" -NoNewLine
+            Write-Line "Please make your choice [1-$($Menu.Count)] or [Enter] to Exit" -NoNewLine -DefaultColor $MenuColor -AltColor $MenuAltColor
             $UserChoice = Read-Host " "
             Try{
                 $UserChoice = [convert]::ToInt32($UserChoice)
@@ -619,48 +655,4 @@ Function Write-ChoiceMenu {
     }
     Write-Output $RetVal
 }
-Function Ask-User {
-    Param(
-        [ValidateSet("YesNoQuit","ContinueQuit","YesNo","YesCancelQuit","ConfirmQuit")]
-        [String]$ChoiceType = "YesNoQuit"
-    )
-    Switch ($ChoiceType) {
-        "YesNoQuit" {
-            $Choice = @{
-                True = @("Yes","Y")
-                False = @("No","N")
-                Quit = @("Quit","Q","Enter")
-            }
-        }
-        "ContinueQuit" {
-            $Choice = @{
-                True = @("Continue","C","Enter")
-                False = @("Quit","Q")
-                Quit = ""
-            }
-        }
-        "YesNo" {
-            $Choice = @{
-                True = @("Yes","Y")
-                False = @("No","N")
-                Quit = ""
-            }
-        }
-        "YesCancelQuit" {
-            $Choice = @{
-                True = @("Yes","Y")
-                False = @("Cancel","C")
-                Quit = @("Quit","Q","Enter")
-            }        
-        }
-        "ConfirmQuit" {
-            $Choice = @{
-                True = @("Confirm","C","Enter")
-                False = @("Quit","Q")
-                Quit = ""
-            }                
-        }
-        default {}
-    }
 
-}
