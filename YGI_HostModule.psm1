@@ -621,8 +621,9 @@ Function Write-ChoiceMenu {
             if ($Title) {
                 if ($TitleBorderStyle -eq "None"){
                     Write-Line -Message $Title -DefaultColor $TitleColor
+                }Else{
+                    Write-Line -Message $Title -Border -BorderFormat $TitleBorderFormat -BorderColor $TitleBorderColor -DefaultColor $TitleColor 
                 }
-                Write-Line -Message $Title -Border -BorderFormat $TitleBorderFormat -BorderColor $TitleBorderColor -DefaultColor $TitleColor 
             }
             Write-Host ""
             $MenuCounter = 1
@@ -655,4 +656,5 @@ Function Write-ChoiceMenu {
     }
     Write-Output $RetVal
 }
+
 
