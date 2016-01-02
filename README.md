@@ -35,7 +35,7 @@ Powershell Module to enhance host display
 
 ## Ask-User
   A predefined read-host
-    * Return $Null if Quit
+    * Return $Null if Quit (except if noquit)
 	* Return $True if Yes
 	* Return $False if No
 
