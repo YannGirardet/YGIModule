@@ -67,12 +67,9 @@
         Write-Warning
     .NOTES
         Written by Yann Girardet
-    
     .FUNCTIONALITY
-        To give a sexyer look to your host
-
+        To give a sexier look to your host
     .FORWARDHELPTARGETNAME <Write-Host>
-
 #>
     Param(
         [Parameter(
@@ -503,12 +500,9 @@ Function Add-ChoiceItem {
         System.String
     .NOTES
         Written by Yann Girardet
-    
     .FUNCTIONALITY
         To Make a Choice Menu
-
     .FORWARDHELPTARGETNAME <Write-Host>
-
 #>
     Param(
         [Array]
@@ -548,12 +542,9 @@ Function Write-ChoiceMenu {
         System.String
     .NOTES
         Written by Yann Girardet
-    
     .FUNCTIONALITY
         To display a Choice Menu
-
     .FORWARDHELPTARGETNAME <Write-Host>
-
 #>
     Param(
         [Parameter(
@@ -626,12 +617,15 @@ Function Ask-User {
     .DESCRIPTION
         Display a question and wait user to type the authorized answer
     .EXAMPLE
-        $ReturnValue = Ask-User -AskYesNoQuit
+        $ReturnValue = Ask-User -NoQuit
         Will display 'Continue [YES/NO] or [E] to Exit :'
+    .EXAMPLE
+        $ReturnValue = Ask-User -Message "Is it ok"
+        Will display 'Is it ok, Continue [YES/NO] or [E] to Exit :'
     .PARAMETER Message
         Message displayed
-    .PARAMETER AskYesNoQuit
-        Default text will be '$Message Continue [YES/NO] or [E] to Exit :'
+    .PARAMETER NoQuit
+        Default text will be '$Message Continue [YES/NO] :'
     .PARAMETER DefaultColor
         Specify default text color. Default 'Cyan'
     .PARAMETER AltColor
@@ -642,35 +636,33 @@ Function Ask-User {
         System.Boolean
     .NOTES
         Written by Yann Girardet
-    
     .FUNCTIONALITY
         To display a question to host
-
     .FORWARDHELPTARGETNAME <read-Host>
-
 #>
     Param(
         [String]
             $Message,
         [Switch]
-            $AskYesNoQuit,
+            $NoQuit,
         [ConsoleColor]
             $DefaultColor="Cyan",
         [ConsoleColor]
             $AltColor="Green"
     )
     Write-Verbose "Function : $($MyInvocation.MyCommand.Name)"
-    if ($AskYesNoQuit){
-        Do {
-            if ($Message){
-                $Line = "$($Message) " 
-            }
+    Do {
+        if ($Message){$Line = "$($Message), "}
+        if ($NoQuit){
+            $Line = "$($Line)Continue [YES/NO]"
+        }Else{
             $Line = "$($Line)Continue [YES/NO] or [E] to Exit"
-            Write-Line $Line -NoNewLine -DefaultColor $DefaultColor -AltColor $AltColor
-            [String]$Answer = Read-Host " "
-            Write-Verbose "Answer is : [$($Answer)]"
-            $LAnswer = $Answer.ToLower()
-            Switch ($LAnswer){
+        }
+        Write-Line $Line -NoNewLine -DefaultColor $DefaultColor -AltColor $AltColor
+        [String]$Answer = Read-Host " "
+        Write-Verbose "Answer is : [$($Answer)]"
+        $LAnswer = $Answer.ToLower()
+        Switch ($LAnswer){
             "yes" {
                 $Ret_Val = $True
                 $ValidChoice = $True
@@ -689,31 +681,45 @@ Function Ask-User {
                 }
             "exit" {
                 $Ret_Val = $null
-                $ValidChoice = $True
+                    if ($NoQuit){
+                        Write-line "`t! Warning ! [$($Answer)] is not a valid choice..." -AltColor RED -DefaultColor Yellow
+                        $ValidChoice = $False
+                    }Else{
+                        $ValidChoice = $True
+                    }
                 }
             "e" {
                 $Ret_Val = $null
-                $ValidChoice = $True
+                    if ($NoQuit){
+                        Write-line "`t! Warning ! [$($Answer)] is not a valid choice..." -AltColor RED -DefaultColor Yellow
+                        $ValidChoice = $False
+                    }Else{
+                        $ValidChoice = $True
+                    }
                 }
             "quit" {
                 $Ret_Val = $null
-                $ValidChoice = $True
+                    if ($NoQuit){
+                        Write-line "`t! Warning ! [$($Answer)] is not a valid choice..." -AltColor RED -DefaultColor Yellow
+                        $ValidChoice = $False
+                    }Else{
+                        $ValidChoice = $True
+                    }
                 }
             "q" {
                 $Ret_Val = $null
-                $ValidChoice = $True
+                    if ($NoQuit){
+                        Write-line "`t! Warning ! [$($Answer)] is not a valid choice..." -AltColor RED -DefaultColor Yellow
+                        $ValidChoice = $False
+                    }Else{
+                        $ValidChoice = $True
+                    }
                 }
             default {
-                Write-line "! Warning ! [$($Answer)] is not a valid choice..." -AltColor RED -DefaultColor Yellow
+                Write-line "`t! Warning ! [$($Answer)] is not a valid choice..." -AltColor RED -DefaultColor Yellow
                 $ValidChoice = $False
             }
         }
-        }Until($ValidChoice)
-    }Else{
-        $Line = "$($Message)"
-        Write-Line $Line -NoNewLine -DefaultColor $DefaultColor -AltColor $AltColor
-        $Ret_Val = Read-Host " "
-    }
+    }Until($ValidChoice)
     Write-Output $Ret_Val
-
 }
