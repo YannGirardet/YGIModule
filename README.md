@@ -11,9 +11,9 @@ Powershell Module to enhance host display
   * Display text in the host with colored border
 
 ### Examples
-  * `Write-Line "The text between [bracket] is [Colored]"`
+  * `Write-Line "The text between [Bracket] is [Colored]"`
   * `Write-Line "This text will be displayed with border" -Border`
-  * `Write-Line "The text between [bracket] is [Colored] but bracket are removed" -HideChar`
+  * `Write-Line "The text between [Bracket] is [Colored] but bracket are removed" -HideChar`
   * `Write-Line "The text between #sharp% and #percent% will be colored #sharp% and #percent% will not be displayed" -HideChar -OpenChar "#" -CloseChar "%"`
 
 ## Add-ChoiceItem
