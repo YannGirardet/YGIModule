@@ -35,9 +35,9 @@ Powershell Module to enhance host display
 
 ## Ask-User
   A predefined read-host
-  * Return $Null if Quit (except if noquit)
-  * Return $True if Yes
-  * Return $False if No
+  * Return `$Null` if Quit (except if noquit) (not case sensitive and also accept Q and E or Exit)
+  * Return `$True` if Yes (not case sensitive and also accept Y)
+  * Return `$False` if No (not case sensitive and also accept N)
 
 ### Example
   * `$ReturnValue = Ask-User -Message "Is it Ok"`
