@@ -1,4 +1,5 @@
 # YGI Host Module
+[Help Page](https://swisspowershell.wordpress.com/revisited-host-module/)
 Powershell Module to enhance host display
 * Write-Line
 * Write-ChoiceMenu
@@ -12,9 +13,13 @@ Powershell Module to enhance host display
 
 ### Examples
   * `Write-Line "The text between [Bracket] is [Colored]"`
+	![Write-Line Example 1](https://swisspowershell.files.wordpress.com/2015/12/write-line_example1.png)
   * `Write-Line "This text will be displayed with border" -Border`
+	![Write-Line Example 2](https://swisspowershell.files.wordpress.com/2015/12/write-line_example2.png)
   * `Write-Line "The text between [Bracket] is [Colored] but bracket are removed" -HideChar`
+	![Write-Line Example 3](https://swisspowershell.files.wordpress.com/2015/12/write-line_example3.png)
   * `Write-Line "The text between #sharp% and #percent% will be colored #sharp% and #percent% will not be displayed" -HideChar -OpenChar "#" -CloseChar "%"`
+	![Write-Line Example 4](https://swisspowershell.files.wordpress.com/2015/12/write-line_example4.png)
 
 ## Add-ChoiceItem
   Create ChoiceItem to use with Write-ChoiceMenu
@@ -27,18 +32,21 @@ Powershell Module to enhance host display
 
 ## Write-ChoiceMenu
   A Choice Menu creator
-  * Create a Menu into host where user have to select between different choice defined by Add-ChoiceMenu
-    * Return $null if user choose to exit
+  * Create a Menu into host where user have to select between different choice defined by Add-ChoiceItem
+    * Return `$null` if user choose to exit
 
 ### Example
   * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu -Title "My Menu"`
+	![Write-ChoiceMenu and Add-ChoiceItem](https://swisspowershell.files.wordpress.com/2015/12/write-choicemenu_example1.png)
 
-## Ask-User
+## Read-Line
   A predefined read-host
   * Return `$Null` if Quit (except if noquit) (not case sensitive and also accept Q and E or Exit)
   * Return `$True` if Yes (not case sensitive and also accept Y)
   * Return `$False` if No (not case sensitive and also accept N)
 
-### Example
-  * `$ReturnValue = Ask-User -Message "Is it Ok"`
-  * `$ReturnValue = Ask-User -Message "Is it Ok" -noquit`
+### Examples
+  * `$ReturnValue = Read-Line -Message "Is it Ok"`
+	![Read-Line Example 1](https://swisspowershell.files.wordpress.com/2015/12/read-line_example1.png)
+  * `$ReturnValue = Read-Line -Message "Is it Ok" -noquit`
+	![Read-Line Example 2](https://swisspowershell.files.wordpress.com/2015/12/read-line_example2.png)

@@ -610,17 +610,17 @@ Function Write-ChoiceMenu {
     }
     Write-Output $RetVal
 }
-Function Ask-User {
+Function Read-Line {
 <#
     .SYNOPSIS
         Display a question and wait user to answer using Read-Host
     .DESCRIPTION
         Display a question and wait user to type the authorized answer
     .EXAMPLE
-        $ReturnValue = Ask-User -NoQuit
+        $ReturnValue = Read-Line -NoQuit
         Will display 'Continue [YES/NO] or [E] to Exit :'
     .EXAMPLE
-        $ReturnValue = Ask-User -Message "Is it ok"
+        $ReturnValue = Read-Line -Message "Is it ok"
         Will display 'Is it ok, Continue [YES/NO] or [E] to Exit :'
     .PARAMETER Message
         Message displayed
