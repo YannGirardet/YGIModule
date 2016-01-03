@@ -46,9 +46,7 @@ Powershell Module to enhance host display
   * Return `$False` if No (not case sensitive and also accept N)
 
 ### Examples
-  * `$ReturnValue = Read-Line -Message "Is it Ok"`
-  
+  * `$ReturnValue = Read-Line -Message "Is it Ok"`  
 	![Read-Line Example 1](https://swisspowershell.files.wordpress.com/2015/12/read-line_example1.png)
-  * `$ReturnValue = Read-Line -Message "Is it Ok" -noquit`
-  
+  * `$ReturnValue = Read-Line -Message "Is it Ok" -noquit`  
 	![Read-Line Example 2](https://swisspowershell.files.wordpress.com/2015/12/read-line_example2.png)
