@@ -1,5 +1,5 @@
 # YGI Host Module
-[Help Page](https://swisspowershell.wordpress.com/revisited-host-module/)
+[Help Page](https://swisspowershell.wordpress.com/revisited-host-module/)  
 Powershell Module to enhance host display
 * Write-Line
 * Write-ChoiceMenu
@@ -12,13 +12,13 @@ Powershell Module to enhance host display
   * Display text in the host with colored border
 
 ### Examples
-  * `Write-Line "The text between [Bracket] is [Colored]"`
+  * `Write-Line "The text between [Bracket] is [Colored]"`  
 	![Write-Line Example 1](https://swisspowershell.files.wordpress.com/2015/12/write-line_example1.png)
-  * `Write-Line "This text will be displayed with border" -Border`
+  * `Write-Line "This text will be displayed with border" -Border`  
 	![Write-Line Example 2](https://swisspowershell.files.wordpress.com/2015/12/write-line_example2.png)
-  * `Write-Line "The text between [Bracket] is [Colored] but bracket are removed" -HideChar`
+  * `Write-Line "The text between [Bracket] is [Colored] but bracket are removed" -HideChar`  
 	![Write-Line Example 3](https://swisspowershell.files.wordpress.com/2015/12/write-line_example3.png)
-  * `Write-Line "The text between #sharp% and #percent% will be colored #sharp% and #percent% will not be displayed" -HideChar -OpenChar "#" -CloseChar "%"`
+  * `Write-Line "The text between #sharp% and #percent% will be colored #sharp% and #percent% will not be displayed" -HideChar -OpenChar "#" -CloseChar "%"`  
 	![Write-Line Example 4](https://swisspowershell.files.wordpress.com/2015/12/write-line_example4.png)
 
 ## Add-ChoiceItem
@@ -36,7 +36,7 @@ Powershell Module to enhance host display
     * Return `$null` if user choose to exit
 
 ### Example
-  * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu -Title "My Menu"`
+  * `$ReturnValue = Write-ChoiceMenu -Menu $ChoiceMenu -Title "My Menu"`  
 	![Write-ChoiceMenu and Add-ChoiceItem](https://swisspowershell.files.wordpress.com/2015/12/write-choicemenu_example1.png)
 
 ## Read-Line
@@ -47,6 +47,8 @@ Powershell Module to enhance host display
 
 ### Examples
   * `$ReturnValue = Read-Line -Message "Is it Ok"`
+  
 	![Read-Line Example 1](https://swisspowershell.files.wordpress.com/2015/12/read-line_example1.png)
   * `$ReturnValue = Read-Line -Message "Is it Ok" -noquit`
+  
 	![Read-Line Example 2](https://swisspowershell.files.wordpress.com/2015/12/read-line_example2.png)
